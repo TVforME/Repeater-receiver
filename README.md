@@ -15,6 +15,8 @@ The receiver operates independently of the repeater for several reasons:
 ## Hardware
 - Raspberry Pi Compute Module 4 (CM4004032): 4GB RAM, 32GB eMMC, without WiFi. (Reduce RF at the site)
 - I2C OLED Display: Used for status display of the receiver. These OLED displays are cost-effective and an improvement over standard LCDs. I2C hardware is native to the Raspberry Pi 4 OS.
+  
+ ![Picture showing F-Type connectors removed ready for SMA and 1:5 balun board](/docs/images/TBS-6522H-noFtypes.jpg)
 
 ## Software
 - **Operating System**: Ubuntu Server 24.04 LTS (headless). Considering using Ubuntu Core 22 and Snaps.
