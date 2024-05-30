@@ -18,7 +18,7 @@ The receiver operates independently of the repeater for several reasons:
   
 ## Picture below showing F-Type connectors removed ready for SMA and 1:5 balun board daughter board
 
-<img src="/docs/images/TBS-6522H-noFtypes.jpg" width="50%">
+<img src="/docs/images/TBS-6522H-noFtypes.jpg" width="25%">
   
 ## Software
 - **Operating System**: Ubuntu Server 24.04 LTS (headless). Considering using Ubuntu Core 22 and Snaps.
