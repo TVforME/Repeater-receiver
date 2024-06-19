@@ -1,26 +1,30 @@
-# Repeater-receiver
+## Repeater-receiver
 Receiver for the DATV Repeater Project
 
-## Overview
-The receiver is based around the TBS Technologies TBS6522 Quad multi-system DVB PCIe card on a Compute Module 4 (CM4) on a daughter board that exposes the PCIe channel. Unfortunately, the standard Raspberry Pi 4 does not have the PCIe bus exposed to allow connection with PCI hardware. USB dirived DVB stcks are fine with raspberry pi 4 however, limitited to how many usb ports available. PCI connection can support 8 individual adaptors at once.
+# Overview
+The receiver is based around the TBS Technologies TBS6522 Quad multi-system DVB PCIe card on a Compute Module 4 (CM4) on a daughter board that exposes the PCIe channel. Unfortunately, the standard Raspberry Pi 4 by default does not have the PCIe bus exposed. USB dirived DVB sticks are fine with a simple use case however, limitited to how many usb ports available. PCI connection can support 8 individual adaptors at once over PCIe x 1 expander board.
 
-The source code (prototype) has been developed in pure bash script however, likely to be converted to GO. 
+The source code (prototype) was developed in pure bash script however, likely to be converted to GO to remove the need for dvblast and socat.
 
-DVBlast and DVBlastctl are used to listen and stream TS via RTP to endpoints. The script configures each adapter frontend to listen on a given frequency and to forward a valid TS multicast stream. frontend stats are reported each (x) seconds via UDP to the repeater core. However, contemptating simplying to reporting adaptor frontend lock only to the repeater core with the stats generated locally using lighthttpd and overlayed using wpe on the core?
+DVBlast and DVBlastctl are configured in combination to listen for a valid TS and signal lock and stream a single TS service via RTP to endpoints. The script configures each adapter frontend seting frequency and necessary parameters, creates stream config files then spins up dvblast for each adaptor. frontend stats are reported each (x) seconds via UDP to the repeater core. However, I have modified the stats reporting from any adaptor frontend to issue a lock only to the repeater core where the stats generated locally using lighthttpd and overlayed using wpe on the core? There is certainly, enough resources to spin-up a http server to host statistics.
 
 # Using piCore64 on a Raspberry Pi Compute Module 4 (CM4) 
-piCore offers significant advantages for systems where reliability and SD card/USB/EMMC lifespan are critical.  Why piCore64?
+piCore offers significant advantages with reliability and extending the life of SD card/USB/EMMC lifespan. piCore offers far beeter performance over similiar Linux OS such as Ubuntu core. core22 and raspberrianLite. I've been satisfied piCore to be a key contributor to the success so far. 
 
-piCore64 is a variant of [Tiny Core Linux](http://tinycorelinux.net/) is designed specifically for 64-bit systems. It's extremely lightweight and operates predominantly in RAM. This means that after the initial boot process, where the system image is loaded into memory, piCore64 runs entirely from RAM from there on. Benefits of Running Linux from RAM are:
+# piCore64?
+piCore64 is a variant of [Tiny Core Linux](http://tinycorelinux.net/) is designed specifically for both 32-bit and 64-bit systems. It's extremely lightweight and operates completely in RAM. The initial boot process rootfs, OS image is loaded into memory. Did I say piCore64 runs entirely from RAM from there on. Raspberrian can be configured to run RO (Read Only) however, requires additional work to configure zswap and log rotation to be workable. 
+
+
+## Benefits of Running Linux from RAM are:
 
 # 1. Reduction of Write Operations:
-Traditional Linux distributions write data frequently to the storage medium (like SSD drives, SD cards, USB sticks, or EMMC). Each write operation potentially shortens the lifespan of these storage devices due to wear and tear on the flash cells. piCore64 minimizes this risk by operating in RAM, thus significantly reducing the number of write operations to flash device is virtuallt zero.
+Traditional Linux distributions write data frequently to their storage medium like SSD drives, SD cards, USB sticks, or EMMC etc. Each write operation potentially shortens the lifespan of these storage devices due to wear and tear on the flash cells. piCore64 minimises this risk entirely by operating in RAM, thus significantly reducing the number of write operations to flash devices. Even swapfile and logs use RAM.
 
 # 2. Increased System Performance:
-RAM is significantly faster than most forms of persistent storage, particularly SD cards and EMMC. By operating from RAM, piCore64 ensures that the system can run applications and processes much faster, which is crucial for real-time applications like such as mission critical applications.
+RAM is significantly faster than most forms of persistent storage, particularly SD cards and EMMC. By operating from RAM, piCore64 ensures that the system can run applications and processes much faster, which is crucial for real-time mission critical applications.
 
 # 3. Enhanced Reliability and Stability:
-Minimises disk/SD/eMMC writes, the risk of file system corruption due to unexpected power failures during a write breaking the filesystem causing complete failure is greatly reduced. This is particularly important for systems that may be deployed in remote or less accessible locations, where providing maintenance can be challenging.
+As in previous dot points, the risk of file system corruption due to unexpected power failures during a filesystem write causing is eliminated. This aspect is particularly important for systems that may be deployed in remote or less accessible locations, where providing maintenance can be challenging.
 
 # 4. Simplified System Maintenance:
 With fewer writes to the storage device, the overall system maintenance is reduced. There's less need for regular file system checks and reduced concern about data integrity issues once to power goes off at a repeater site. Restoring power reloads a fresh copy into RAM and off it goes.
