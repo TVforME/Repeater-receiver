@@ -51,14 +51,14 @@ The receiver operates independently of the repeater for several reasons:
 ## Hardware
 - Raspberry Pi Compute Module 4 (CM4004032): 4GB RAM, 32GB eMMC, without WiFi to reduce RF at the site.
 - I2C OLED Display: Used for fontpanel display to show status of the receiver.
-- Modify TBS-6522H from 75 Ohm F-type to 50 Ohm SMA with 1:5 impedance balum.
+- Modify TBS-6522H from 75 Ohm F-type to 50 Ohm SMA with 1:5 impedance balun. PCB to be designed to accomidate SMA's and baluns
 ## Picture below showing F-Type connectors removed ready for SMA and 1:5 balun board daughter board
 
 <img src="/docs/images/TBS-6522H-noFtypes.jpg" width="25%">
   
 ## Software details
-- **Operating System**: piCore64 version 14.1.0 
-- **Build Script**: Script for setting up necessary v4ldvb, TBS drivers, a few tools such as pcitools and the dvblast application. I'll develop a tcz package to load on sartup with all dependancies included. DVBlast reqiure BiTstream and libev.
-- **Streaming Setup**: dvb.conf is read to configure adaptors and begin streaming.  signal lock is Multicast over UDP.
-- **Application**: The final application is to run as a daemon.. 
+- **Operating System**: piCore64 version 14.1.0
+- **Aplication**: Entirely bash script (prototype for development) move to => deamon in future coded in Go.
+- **Build Script**: Script for setting up necessary v4ldvb, TBS drivers, a few tools such as pcitools and the dvblast application. I'll develop a tcz package to load on sartup with all dependancies included. DVBlast leverages of BiTstream and libev libraries.
+- **Streaming Setup**: dvb.conf is read to configure adaptors and begin streaming.  signal lock is Multicast over UDP using socat. I  used ncat initially however, it didn't cut it.
 
