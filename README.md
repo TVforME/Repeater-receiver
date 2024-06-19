@@ -13,20 +13,19 @@ piCore offers significant advantages for systems where reliability and SD card/U
 
 piCore64 is a variant of [Tiny Core Linux](http://tinycorelinux.net/) is designed specifically for 64-bit systems. It's extremely lightweight and operates predominantly in RAM. This means that after the initial boot process, where the system image is loaded into memory, piCore64 runs entirely from RAM from there on. Benefits of Running Linux from RAM are:
 
-1. Reduction of Write Operations:
+<sub>1. Reduction of Write Operations:</sub>
 Traditional Linux distributions write data frequently to the storage medium (like SSD drives, SD cards, USB sticks, or EMMC). Each write operation potentially shortens the lifespan of these storage devices due to wear and tear on the flash cells. piCore64 minimizes this risk by operating in RAM, thus significantly reducing the number of write operations to flash device is virtuallt zero.
 
-2. Increased System Performance:
+<sub>2. Increased System Performance:</sub>
 RAM is significantly faster than most forms of persistent storage, particularly SD cards and EMMC. By operating from RAM, piCore64 ensures that the system can run applications and processes much faster, which is crucial for real-time applications like such as mission critical applications.
 
-4. Enhanced Reliability and Stability:
+<sub>3. Enhanced Reliability and Stability:</sub>
 Since piCore64 minimises disk/SD/eMMC writes, the risk of file system corruption due to unexpected power failures or write failures is greatly reduced. This is particularly important for systems that may be deployed in remote or less accessible locations, where maintenance can be challenging.
 
-4. Simplified System Maintenance:
+<sub>4. Simplified System Maintenance:</sub>
 With fewer writes to the storage device, the overall system maintenance is reduced. There's less need for regular file system checks and reduced concern about data integrity issues once to power goes off at a repeater site.
-
-Developing the repeater receiver code on piCore64 allows the Raspberry Pi CM4 to perform efficiently and reliably in a broadcast environment. The operating system's lightweight ensures that most of the Raspberry Pi’s resources are dedicated to handling the communications with dvb adaptors and multiple instances of DVBlast rather than system overheads such as Snap/apt triggers and many deamons hiding in the background. Additionally, the ephemeral nature of RAM-based systems means that any configuration changes or temporary data are reset upon reboot, which can help in maintaining a consistent state across power cycles.
-Despite, loading settings into RAM on startup, piCore has facilities to make settings persistant by running simple scripts. 
+<sub>5. 24/7/365 Benifits:</sub>
+Developing the repeater receiver code on piCore64 allows the Raspberry Pi CM4 to perform efficiently and reliably in a broadcast environment. The operating system's lightweight ensures that most of the Raspberry Pi’s 3 Cores are busy in handling the communications with dvb adaptors and multiple instances of DVBlast rather than system overheads such as Snap/apt triggers and many deamons hiding in the background waiting to update your OS. Additionally, the ephemeral nature of RAM-based systems means that any configuration changes or temporary data are reset upon reboot, which can help in maintaining a consistent state across power cycles. Despite, loading settings into RAM on startup, piCore has facilities to make settings persistant by running simple scripts. I'm only new in using piCore however, there are knowledgable people using piCore willing to help on the tinylinux forum for any issues or hurdles I've come across. 
 
 ## Design Considerations
 The receiver operates independently of the repeater for several reasons:
