@@ -34,13 +34,19 @@ As in previous dot points, the risk of file system corruption due to unexpected 
 With fewer writes to the storage device, the overall system maintenance is reduced. There's is really no need to continually update software reduces the concern about data integrity issues once to power goes off at the repeater site. Restoring power reloads a fresh copy into RAM and off it goes. Its easy enough to run the `picore_image_build.sh` script to use a later version of Linux kernel. Read on more to come.. 
 
 ### 5. 24/7/365 Benifits:
-Developing the repeater receiver code with piCore64 on Raspberry Pi CM4 arm64 perform efficiently and reliably in a broadcast environment. The operating system's lightweight ensures that most of the Raspberry Pi’s 3 Cores are busy in handling the communications over PCI dvb adaptors with multiple instances of DVBlast churning away at streaming TS rather than spending cycles managing Snap/apt triggers and many deamons running intermittantly in the background. Additionally, the ephemeral nature of RAM-based systems means that any configuration changes or temporary data are reset upon reboot, which can help in maintaining a consistent state across power cycles. Despite, loading settings into RAM on startup, piCore has facilities to make settings persistant by running simple scripts. I'm only new to piCore however, there are plently knowledgable people willing to help on the tinylinux forum for any issues or hurdles I've come across so far.
+Developing the repeater receiver code on piCore64 ensures efficient and reliable performance in a broadcast environment.
+
+The operating system's lightweight ensures that most of the Raspberry Pi’s 3 Cores are busy in handling the communications with PCI DVB adaptor/s as well as juggling multiple instances of DVBlast rather than spending cycles managing Snaps / apt triggers and many deamons running intermittantly in the background as with traditional Linux OS's. 
+
+Additionally, the ephemeral nature of RAM-based systems means that any configuration changes or temporary data are reset upon reboot, which can help in maintaining a consistent state across power cycles. Despite RAM use files, piCore has facilities to make settings persistant by running simple scripts. I'm only new to piCore however, there are plently knowledgable people willing to help on the tinylinux forum for any issues or hurdles I've come across so far.
 
 ## Design Considerations
 The receiver operates independently of the repeater for several reasons:
-1. **Reduce Overhead**: This approach reduces overhead in the repeater Core design. The concept is to keep all the RF in one box. motherboard running at GHz clock speeds spells interference and potential noise issues. Communication is through the 1Gbs Ethernet interface using RTP/UDP/HTTP with SSH for remote access.  Theoretically, the receive could be located remotely from the core!
-2. **Configurable**: Receiver can be configured for different PCIe DVB cards to receive both DVB-S/S2 or DVB-T/T2 per frequency. DATV uses both DVB-S/S2 and DVB-T/T2 for terrestrial experimentation.
-3. **Reduce Point of Failure**: The receiver is constructed to fit in a hard disk bay of the repeater ATX 4RU chassis. A duplicate receiver can be simply exchanged to facilitate "upgrades and features" in 5 minutes making servicability key importance at a repeater site.
+
+1. **Reduce Overhead**: This approach reduces overhead in the repeater Core design to manage dvb access. My concept is for all the RF to be kept in one box. Motherboard running at GHz clock speeds spells interference and potential noise issues if happened to have low level RF signals coaxial cables draped over motherboard componets.
+2. Communication is through the 1Gbs Ethernet interface using RTP/UDP/HTTP with SSH for remote access.  Theoretically, the receive could be located remotely from the core!
+3. **Configurable**: Receiver can be configured for different PCIe DVB cards to receive both DVB-S/S2 or DVB-T/T2 per frequency. DATV uses both DVB-S/S2 and DVB-T/T2 for terrestrial experimentation.
+4. **Reduce Point of Failure**: The receiver is constructed to fit in a hard disk bay of the repeater ATX 4RU chassis. A duplicate receiver can be simply exchanged to facilitate "upgrades and features" in 5 minutes making servicability key importance at a repeater site.
 
 ## Hardware
 - Raspberry Pi Compute Module 4 (CM4004032): 4GB RAM, 32GB eMMC, without WiFi to reduce RF at the site.
