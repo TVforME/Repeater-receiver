@@ -25,7 +25,9 @@ piCore64 is a variant of [Tiny Core Linux](http://tinycorelinux.net/) is designe
 Traditional Linux distributions write data frequently to their storage medium like SSD drives, SD cards, USB sticks, or EMMC etc. Each write operation potentially shortens the lifespan of these storage devices due to wear and tear on the flash cells. piCore64 minimises this risk entirely by operating in RAM, thus significantly reducing the number of write operations to flash devices. Even swapfile and logs use RAM.
 
 ### 2. Increased System Performance:
-RAM is significantly faster than most forms of persistent storage, particularly SD cards and EMMC. By operating from RAM, piCore64 ensures that the system can run applications and processes much faster, which is crucial for real-time mission critical applications.
+RAM is significantly faster than most forms of persistent storage, particularly SD cards and EMMC. By operating from RAM, piCore64 ensures that the system can run applications and processes much faster, which is crucial for real-time mission critical applications. Obviosly, any code memory leaks overtime is likely to slowly chew up 4Gb of RAM therefore it's imperitive applications written in C and C++ need to free resources correcly. 
+
+A nightly reboot feature maybe a solution for memory leak.. A simple bash script could routinely watch memory capacity and schedule a reboot during early morning intervals.
 
 ### 3. Enhanced Reliability and Stability:
 As in previous dot points, the risk of file system corruption due to unexpected power failures during a filesystem write is eliminated. This aspect alone is particularly important for systems that may to be deployed in remote or less accessible locations, where providing maintenance can be challenging.
