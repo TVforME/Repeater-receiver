@@ -1,16 +1,42 @@
 # Repeater-receiver
-Receiver for the DATV Repeater Project
+Receiver for the DATV Repeater Project..
+
+Receiver simlulates a STB (Set Top Box) without the remote control and stuff we don't need.
+Receiver operates independantly and listens for a valid TS on configured frequencies. Once a signal is received, the TS is anaylsed for the first service in the MPTS or SPTS and then reconfigures the demux to pass the first service onto the streamer. The streamer forwards the SPTS via RTP (relatime protocol) via multicast for the repeater core to decode. In effect, Receiver could be used as a simple headend.
 
 ## Overview
-The receiver is based around the TBS Technologies TBS6522 Quad multi-system DVB PCIe card on a Compute Module 4 (CM4) on a daughter board that exposes the PCIe channel. Unfortunately, the standard Raspberry Pi 4 by default does not have the PCIe bus exposed. USB dirived DVB sticks are fine with a simple use case however, limitited to how many usb ports available. PCI connection can support 8 individual adaptors at once over PCIe x 1 expander board.
+The receiver is based around the TBS Technologies TBS6522 Quad multi-system DVB PCIe card on a Compute Module 4 (CM4) on a AliExpress daughter board effectively exposes the CM4's PCIe channel. Unfortunately, the standard Raspberry Pi 4 has its PCIe lanes occupied for usb switch and other peripherals which leaves the use of USB DVB adapter the only solution. 
+Using USB DVB adapters comes with caveats-
 
-The source code (prototype) was developed in pure bash script however, likely to be converted to GO to remove the need for dvblast and socat.
+1. Limitited to how many usb ports available on your system. 
+2. Order of usb enumerations can be problematic. /dvb/adapter0 adapter1 aren't always logical 0,1,2 etc
+3. A solution is to bind the adapter 'Name' to usb port.
 
-DVBlast and DVBlastctl are configured in combination to listen for a valid TS and signal lock and stream a single TS service via RTP to endpoints. 
+The CM4's PCIe support allows for 8 individual adaptors to connect PCIe (x1) lane via a PCIe 2x (x1) expander board.  
 
-The script configures each adapter frontend's frequency and other necessary parameters, creates individual stream config files then spins up dvblast for each adaptor. frontend stats are reported each (x) seconds via UDP to the repeater core. However, 
+The source code is developed in Golang to levergage go routines and go's built in http server to host an OSD display to show each adapter and monitor page for CPU/RAM/Network usage rates.
 
-I have modified the stats reporting from any adaptor frontend to issue a lock only to the repeater core where the stats generated locally using lighthttpd and overlayed using wpe on the core? There is certainly, enough resources to spin-up a http server to host statistics.
+Each adapter's frontend are polled in read only mode using ioctl calls.  Direct ioctl calls greatly speed up the response and has avoided the additional overhead in translating the stats values comming in through stdio.
+
+The underlying adapter tuning and demux in anaylsing of services to select pcr, video and audio PID's is reliant on [TSduck](https://tsduck.io/download/tsduck/) 
+
+TSduck and dvbapi are a required dependancies for receiver is operate.
+
+The code operates on a simple state machine with 4 states:-
+
+1. Listening
+2. Analysing
+3. Streaming
+4. Stopping
+
+All settings are configured in a config.yaml file and read at startup.
+
+## Architectures amd64 and amr64.
+Version 1.0.1 is operating on Linux Ubuntu 24.04 and Ubuntu Core 24 on Raspberry Pi.
+Ulimately, Receiver is in development to be ported to PiCore64 for the purpose of running entirely in RAM to aviod SSD corruption from power cycling or inadvertant power removal.
+
+# Below this line is proposed for FUTURE and in development
+# =========================================================
 
 ## Using piCore64 on a Raspberry Pi Compute Module 4 (CM4) 
 piCore offers significant advantages with reliability and extending the life of SD card/USB/EMMC lifespan. piCore offers far beeter performance over similiar Linux OS such as Ubuntu core. core22 and raspberrianLite. I've been satisfied piCore to be a key contributor to the success so far. 
@@ -60,7 +86,7 @@ The receiver operates independently of the repeater for several reasons:
   
 ## Software details
 - **Operating System**: piCore64 version 14.1.0
-- **Aplication**: Entirely bash script (prototype for development) move to => deamon in future coded in Go.
-- **Build Script**: Script for setting up necessary v4ldvb, TBS drivers, a few tools such as pcitools and the dvblast application. I'll develop a tcz package to load on sartup with all dependancies included. DVBlast leverages of BiTstream and libev libraries.
-- **Streaming Setup**: dvb.conf is read to configure adaptors and begin streaming.  signal lock is Multicast over UDP using socat. I  used ncat initially however, it didn't cut it.
+- **Aplication**: Entirely in Go code move to => deamon in future coded in Go.
+- **Build Script**: Script for setting up necessary v4ldvb, TBS drivers, a few tools such as pcitools and of coaurse the TSduck tool kit.
+- I'll develop a tcz package to load on startup with all dependancies included.  That's the plan.
 
