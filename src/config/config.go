@@ -6,8 +6,9 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"receiver/helpers"
 	"strings"
+	
+	"github.com/TVforME/Repeater-receiver/src/helpers"
 
 	"github.com/go-playground/validator/v10"
 	"gopkg.in/yaml.v3"
