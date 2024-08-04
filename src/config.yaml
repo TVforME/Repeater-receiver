@@ -1,0 +1,40 @@
+network: 
+  stats_ip: "239.255.0.100"
+  interface_ip: ""
+  port: 1234
+  web_ip: "127.0.0.1"
+
+# freq_offset is the downcoverter LO frequency in Hz
+# Required to subtract the LO from the input frequency.
+dvbt_offset:
+  freq_offset: 600000000
+
+# For each - type, a adapter is assigned. Make sure the correct Type is assigne to the adapter.
+dvb:
+  - type: "DVB-T"
+    frequency: 1276500000
+    bandwidth: 7
+    ip: "239.255.0.1"
+    port: 5004
+  - type: "AUTO-T"
+    frequency: 1262500000
+    bandwidth: 7
+    ip: "239.255.0.2"
+    port: 5004
+  # - type: "AUTO-S"
+  #  frequency: 124600000
+  #  symbol_rate: 4000000
+  #  ip: "239.255.0.3"
+  #  port: 5004
+  # - type: "DVB-S"
+  #  frequency: 125500000
+  #  symbol_rate: 4000000
+  #  ip: "239.255.0.4"
+  #  port: 5004
+
+
+  # ABC   676500000
+  # SEVEN 655500000
+  # NINE  662500000
+  # TEN   669500000
+  # SBS   683500000

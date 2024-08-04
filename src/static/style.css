@@ -1,0 +1,288 @@
+body, html {
+    background-color: black;
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Use viewport height */
+    width: 100vw;  /* Use viewport width */
+    overflow: hidden;
+    font-size: 1.5vh; /* Use viewport height for font size */
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+ /* overly for monitor page  */
+.monitor-overlay {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50vw; /* Adjust as needed */
+    height: auto;
+    background-color: rgba(0, 0, 10, 0.5);
+    padding: 2vh;
+    border-radius: 1vh;
+    border: 0.7vh solid white;
+    text-align: center;
+}
+
+/* Adaptor container OSD look-a-like  */
+.overlay {
+    position: absolute;
+    bottom: 5%; /* Adjusted for proper positioning 4% */
+    left: 50%;
+    transform: translateX(-50%) scale(0.55); /* Increased scale by 20% (0.5 -> 0.6) */
+    transform-origin: bottom center; /* Ensure scaling from bottom-center */
+    width: 95vw; /* Increased width 80vw */
+    height: 55vh; /* Set height explicitly 55h */
+    background-color: rgba(7, 7, 35, 0.5);
+    padding: 2vh; /* Use viewport height for padding */
+    border-radius: 1vh; /* Use viewport height for border radius */
+    border: 0.7vh solid white; /* Use viewport height for border width */
+}
+
+.rounded-border {
+    position: relative;
+    border: 0.3vh solid white; /* Use viewport height for border width */
+    border-radius: 0.5vh; /* Use viewport height for border radius */
+    padding: 0.5vh; /* Use viewport height for padding */
+    margin-bottom: 1vh; /* Use viewport height for margin */
+    width: 99%;
+    height: 4vh; /* Use viewport height for bar height */
+    overflow: hidden;
+    background-color: black; /* Set the background color to black */
+}
+
+
+.bar {
+    height: 100%;
+    width: 0;
+    transition: width 1.5s ease; /* bar movement */
+}
+
+#rssi-bar {
+    background-color: magenta;
+}
+
+#snr-bar {
+    background-color: green;
+}
+
+#ber-bar {
+    background-color: red;
+}
+
+#cpu-bar {
+    background-color: blue;
+}
+
+#ram-bar {
+    background-color: purple;
+}
+
+
+h1 {
+    font-size: 4em; /* Large font size for the heading */
+    margin: 0;
+}
+
+h2 {
+    font-size: 2.5em; /* Large font size for the subheadings */
+    margin-top: 0.5vh; /* Add some space above */
+    margin-bottom: 1vh; /* Add some space below */
+    text-align: left; /* text left */
+}
+
+h3 {
+    font-size: 1.5em; /* Relative to the root font size */
+    margin-top: 0;
+    margin-bottom: 0.6vh; /* Use viewport height for margin */
+}
+
+p {
+    font-size: 1.5em; /* Relative to the root font size */
+    margin: 0;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1vh; /* Use viewport height for margin */
+}
+
+.percentage {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em; /* Relative to the root font size */
+    font-weight: 800;
+    z-index: 2;
+}
+
+.label {
+    font-size: 1.2em; /* Relative to the root font size */
+    font-weight: 800;
+}
+
+.infoRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0;
+    font-size: 1.5em; /* Relative to the root font size */
+    gap: 2vh; /* Use viewport height for gap */
+    margin-top: 2vh;
+    margin-bottom: 2vh; /* Adjust this to change the spacing between rows */
+}
+
+.infoPair {
+    display: flex;
+    align-items: center;
+    gap: 2vh; /* Use viewport height for gap between pairs */
+}
+
+.infoItem {
+    display: flex;
+    align-items: center;
+    gap: 0.8vh; /* Use viewport height for gap */
+    text-align: center;
+    padding: 0 1vh; /* Use viewport height for padding */
+    margin-top: 0;
+}
+
+.info-data {
+    text-align: center;
+    font-size: 1.5em; /* Relative to the root font size */
+    margin-top: 0;
+    margin-bottom: 0.5vh; /* Use viewport height for margin */
+    font-weight: 800;
+    margin-left: 1vh; /* Add margin to the left of the value */
+}
+
+
+.flex-container {
+    display: flex;
+    justify-content: space-evenly; /* Space items evenly */
+    align-items: center;
+    margin-bottom: 2vh; /* Adjust this to change the spacing between rows */
+}
+
+.lock-box {
+    display: inline-block;
+    width: 4vh; /* Use viewport height for width */
+    height: 4vh; /* Use viewport height for height */
+    border: 0.3vh solid white; /* Use viewport height for border width */
+    background-color: transparent;
+    margin-left: 1vh; /* Use viewport height for margin */
+    vertical-align: middle;
+    text-align: center;
+    line-height: 2.5vh; /* Use viewport height for line height */
+    font-size: 1.0em; /* Relative to the root font size */
+}
+
+/* Add the hidden class to hide elements */
+.hidden {
+    display: none;
+}
+
+/* Base style for icons */
+.info-icon {
+    display: inline-block;
+    padding: 0.5vh 1vh; /* Use viewport height for padding */
+    border-radius: 0.5vh; /* Use viewport height for border radius */
+    color: white;
+    font-weight: bold;
+    margin-left: 0.9vh; /* Use viewport height for margin */
+    vertical-align: middle;
+    font-size: 1.2em; /* Adjust font size as needed */
+    border: 0.3vh solid white; /* Add a thin white border */
+    text-align: center; /* Center text horizontally */
+    line-height: 2.5vh; /* Use viewport height to center text vertically */
+}
+
+/* Video type icons */
+.sd-icon {
+    background-color: green;
+}
+
+.hd-icon {
+    background-color: red;
+}
+
+.uhd-icon {
+    background-color: blue;
+}
+
+/* Audio type icons */
+.aac-icon {
+    background-color: purple;
+}
+
+.ac3-icon {
+    background-color: yellowgreen;
+}
+
+.mpeg-icon {
+    background-color: gray;
+}
+
+/* Spinner styles */
+.listening-spinner {
+    border: 1.5vh solid rgba(255, 255, 255, 0.3);
+    border-top: 1.5vh solid white;
+    border-radius: 50%;
+    width: 2vh; /* Use viewport height for size */
+    height: 2vh; /* Use viewport height for size */
+    animation: spin 4s linear infinite;
+}
+
+.analyzing-spinner {
+    border: 1.5vh solid rgba(255, 255, 255, 0.3);
+    border-top: 1.5vh solid yellow;
+    border-radius: 50%;
+    width: 2vh; /* Use viewport height for size */
+    height: 2vh; /* Use viewport height for size */
+    animation: spin 1s linear infinite;
+}
+
+.findpids-spinner {
+    border: 1.5vh solid rgba(255, 255, 255, 0.3);
+    border-top: 1.5vh solid blue;
+    border-radius: 50%;
+    width: 2vh; /* Use viewport height for size */
+    height: 2vh; /* Use viewport height for size */
+    animation: spin 1s linear infinite;
+}
+
+.streaming-spinner {
+    border: 1.5vh solid rgba(255, 255, 255, 0.3);
+    border-top: 1.5vh solid green;
+    border-radius: 50%;
+    width: 2vh; /* Use viewport height for size */
+    height: 2vh; /* Use viewport height for size */
+    animation: spin 1s linear infinite;
+}
+
+.stopping-spinner {
+    border: 1.5vh solid rgba(255, 255, 255, 0.3);
+    border-top: 1.5vh solid red;
+    border-radius: 50%;
+    width: 2vh; /* Use viewport height for size */
+    height: 2vh; /* Use viewport height for size */
+    animation: spin 0.5s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

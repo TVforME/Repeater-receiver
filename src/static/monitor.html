@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>System Monitor</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>System Monitor</h1>
+        <div>
+            <h3>CPU Usage</h3>
+            <div class="rounded-border">
+                <div id="cpu-bar" class="bar"></div>
+                <span class="percentage" id="cpu-percentage">Loading...</span>
+            </div>
+            <h3>RAM Usage (Total: <span id="ram-total">Loading...</span> GB)</h3>
+            <div class="rounded-border">
+                <div id="ram-bar" class="bar"></div>
+                <span class="percentage" id="ram-percentage">Loading...</span>
+            </div>
+            <h3>Network Usage: <span id="network-usage">Loading...</span></h3>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const source = new EventSource('/monitor-sse');
+            source.onmessage = function (event) {
+                const data = JSON.parse(event.data);
+                document.getElementById('cpu-percentage').textContent = data.cpu.toFixed(1) + '%';
+                document.getElementById('cpu-bar').style.width = data.cpu.toFixed(1) + '%';
+
+                document.getElementById('ram-percentage').textContent = data.ram.toFixed(1) + '%';
+                document.getElementById('ram-bar').style.width = data.ram.toFixed(1) + '%';
+                document.getElementById('ram-total').textContent = data.ramTotal.toFixed(2);
+
+                document.getElementById('network-usage').textContent = data.network;
+            };
+        });
+    </script>
+</body>
+</html>

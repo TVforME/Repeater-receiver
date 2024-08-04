@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stats</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+</head>
+<body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const source = new EventSource('/adapter-sse/{{.AdapterID}}');
+            source.onmessage = function (event) {
+                const data = JSON.parse(event.data);
+
+
+                const lockStatus = data.fe_lock && data.carrier_lock;
+
+                // Update the spinner state
+                const state = data.state; //'state' is a uint8 in data
+                updateSpinner(state);
+
+                document.getElementById('frequency').textContent = data.freq;
+                document.getElementById('system').textContent = data["delivery-system"];
+                document.getElementById('modulation').textContent = data.modulation;
+                document.getElementById('bandwidth').textContent = data.bw;
+                document.getElementById('symbolrate').textContent = data.sr;
+                
+                // Update fields based on lock status
+                if (lockStatus) {
+                    document.getElementById('service-id').textContent = data.id;
+                    document.getElementById('service-name').textContent = truncateString(data.name, 19)
+                    document.getElementById('pcr-pid').textContent = data.pcr_pid;
+                    document.getElementById('video-pid').textContent = data.video_pid;
+                    document.getElementById('audio-pid').textContent = data.audio_pid;
+                } else {
+                    document.getElementById('service-id').textContent = '';
+                    document.getElementById('service-name').textContent = '';
+                    document.getElementById('pcr-pid').textContent = '';
+                    document.getElementById('video-pid').textContent = '';
+                    document.getElementById('audio-pid').textContent = '';
+                }
+
+                // Update video type icon using css
+                const videoTypeIcon = document.getElementById('video-type-icon');
+                videoTypeIcon.className = 'info-icon'; // Reset class
+                if (lockStatus) {
+                    switch (data.video_type) {
+                        case 'SD':
+                            videoTypeIcon.classList.add('sd-icon');
+                            videoTypeIcon.textContent = 'SD';
+                            break;
+                        case 'HD':
+                            videoTypeIcon.classList.add('hd-icon');
+                            videoTypeIcon.textContent = 'HD';
+                            break;
+                        case 'UHD':
+                            videoTypeIcon.classList.add('uhd-icon');
+                            videoTypeIcon.textContent = 'UHD';
+                            break;
+                        default:
+                            videoTypeIcon.textContent = '';
+                    }
+                } else {
+                    videoTypeIcon.textContent = '';
+                }
+
+                // Update audio type icon using css
+                const audioTypeIcon = document.getElementById('audio-type-icon');
+                audioTypeIcon.className = 'info-icon'; // Reset class
+                if (lockStatus) {
+                    switch (data.audio_type) {
+                        case 'AAC':
+                            audioTypeIcon.classList.add('aac-icon');
+                            audioTypeIcon.textContent = 'AAC';
+                            break;
+                        case 'AC3':
+                            audioTypeIcon.classList.add('ac3-icon');
+                            audioTypeIcon.textContent = 'AC3';
+                            break;
+                        case 'MPEG':
+                            audioTypeIcon.classList.add('mpeg-icon');
+                            audioTypeIcon.textContent = 'MPEG';
+                            break;
+                        default:
+                            audioTypeIcon.textContent = '';
+                    }
+                } else {
+                    audioTypeIcon.textContent = '';
+                }
+
+                updateLockStatus('siglock', data.signal_lock);
+                updateLockStatus('felock', data.fe_lock);
+                updateLockStatus('synclock', data.sync_lock);
+                updateLockStatus('carrierlock', data.carrier_lock);
+                updateLockStatus('viterbilock', data.viterbi_lock);
+                updateBar('rssi-bar', data.rssi);
+                updateBar('snr-bar', data.snr);
+                updateBar('ber-bar', data.ber);
+
+                const systemType = data["delivery-system"];
+
+                const bwContainer = document.getElementById('bw-container');
+                const srContainer = document.getElementById('sr-container');
+
+                if (systemType === 'DVB-T' || systemType === 'DVB-T2') {
+                    bwContainer.classList.remove('hidden');
+                    srContainer.classList.add('hidden');
+
+                } else if (systemType === 'DVB-S' || systemType === 'DVB-S2') {
+                    bwContainer.classList.add('hidden');
+                    srContainer.classList.remove('hidden');
+                } else {
+                    bwContainer.classList.add('hidden');
+                    srContainer.classList.add('hidden');
+                }
+            };
+
+            function truncateString(str, num) {
+                if (str.length <= num) {
+                    return str;
+                }
+                return str.slice(0, num) + '...';
+            }
+
+            function updateLockStatus(id, status) {
+                const element = document.getElementById(id);
+                element.style.backgroundColor = status ? 'green' : 'red';
+            }
+
+            function updateBar(id, value) {
+                const element = document.getElementById(id);
+                element.style.width = value + '%';
+                const textElement = document.getElementById(id.replace('-bar', ''));
+                textElement.textContent = value + '%';
+                textElement.style.color = value > 50 ? 'black' : 'white';
+            }
+
+            function updateSpinner(state) {
+                const spinner = document.getElementById('spinner');
+                spinner.className = ''; // Reset class
+
+                let stateText = '';
+                switch (state) {
+                    case 0:
+                        spinner.classList.add('listening-spinner');
+                        stateText = 'Listening';
+                        break;
+                    case 1:
+                        spinner.classList.add('analyzing-spinner');
+                        stateText = 'Analysing';
+                        break;
+                    case 2:
+                        spinner.classList.add('findpids-spinner');
+                        stateText = 'Find PIDS';
+                        break;
+                    case 3:
+                        spinner.classList.add('streaming-spinner');
+                        stateText = 'Streaming';
+                        break;
+                    case 4:
+                        spinner.classList.add('stopping-spinner');
+                        stateText = 'Stopping';
+                        break;
+                    default:
+                        stateText = 'Unknown??';
+                }
+
+                    const spinnerText = document.getElementById('state-text');
+                    spinnerText.textContent = stateText;
+            }
+
+        });
+    </script>
+   <div class="overlay">
+    <h2>Signal Strength</h2>
+    <div class="rounded-border">
+        <div id="rssi-bar" class="bar"></div>
+        <span class="percentage" id="rssi"></span>
+    </div>
+    <h2>Signal to Noise Ratio</h2>
+    <div class="rounded-border">
+        <div id="snr-bar" class="bar"></div>
+        <span class="percentage" id="snr"></span>
+    </div>
+    <h2>Bit Error Rate</h2>
+    <div class="rounded-border">
+        <div id="ber-bar" class="bar"></div>
+        <span class="percentage" id="ber"></span>
+    </div>
+    <div class="infoRow">
+        <div class="infoItem"><h3>FE Lock:</h3> <span id="felock" class="lock-box"></span></div>
+        <div class="infoItem"><h3>Sig Lock:</h3> <span id="siglock" class="lock-box"></span></div>
+        <div class="infoItem"><h3>Sync Lock:</h3> <span id="synclock" class="lock-box"></span></div>
+        <div class="infoItem"><h3>Carrier Lock:</h3> <span id="carrierlock" class="lock-box"></span></div>
+        <div class="infoItem"><h3>Viterbi Lock:</h3> <span id="viterbilock" class="lock-box"></span></div>
+    </div>
+    <div class="infoRow">
+        <div class="infoItem"><h3>State:</h3>
+            <div id="spinner" class="awaiting-spinner"></div>
+            <div id="state-text" class="info-data"></div>
+        </div>
+        <div class="infoItem"><h3>Frequency:</h3> <span id="frequency" class="info-data"></span>MHz</div>
+        <div class="infoItem"><h3>System:</h3> <span id="system" class="info-data"></span></div>
+        <div class="infoItem"><h3>Modulation:</h3> <span id="modulation" class="info-data"></span></div>
+        <div class="infoItem hidden" id="bw-container"><h3>Bandwidth:</h3><span id="bandwidth" class="info-data"></span>MHz</div>
+        <div class="infoItem hidden" id="sr-container"><h3>Symbol Rate:</h3><span id="symbolrate" class="info-data"></span>KS/s</div>
+    </div>
+    <div class="infoRow">
+        <div class="infoItem"><h3>Service ID:</h3> <span id="service-id" class="info-data"></span></div>
+        <div class="infoItem"><h3>Name:</h3> <span id="service-name" class="info-data"></span></div>
+        <div class="infoItem"><h3>PCR PID:</h3> <span id="pcr-pid" class="info-data"></span></div>
+        <div class="infoItem">
+            <h3>Video PID:</h3>
+            <span id="video-pid" class="info-data"></span>
+            <span id="video-type-icon" class="info-icon"></span>
+        </div>
+        <div class="infoItem">
+            <h3>Audio PID:</h3>
+            <span id="audio-pid" class="info-data"></span>
+            <span id="audio-type-icon" class="info-icon"></span>
+        </div>
+    </div>
+</div>
+</body>
+</html>
