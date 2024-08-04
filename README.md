@@ -16,7 +16,7 @@ The CM4's PCIe support allows for 8 individual adaptors to connect PCIe (x1) lan
 
 The source code is developed in Golang to levergage go routines and go's built in http server to host an OSD display to show each adapter and monitor page for CPU/RAM/Network usage rates.
 
-<img src="/docs/images/Screenshot_202024-08-05_Stats.png" width="45%">
+<img src="/docs/images/Screenshot_2024-08-05_Stats.png" width="45%">
 <img src="/docs/images/Screenshot_2024-08-05_System_Monitor.png" width="45%">
 
 Each adapter's frontend are polled in read only mode using ioctl calls.  Direct ioctl calls greatly speed up the response and has avoided the additional overhead in translating the stats values comming in through stdio.
