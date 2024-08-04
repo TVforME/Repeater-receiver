@@ -39,7 +39,7 @@ Version 1.0.1 is operating on Linux Ubuntu 24.04 and Ubuntu Core 24 on Raspberry
 Ulimately, Receiver is in development to be ported to PiCore64 for the purpose of running entirely in RAM to aviod SSD corruption from power cycling or inadvertant power removal.
 
 # Below this line is proposed for FUTURE and in development
-# =========================================================
+# =============================================
 
 ## Using piCore64 on a Raspberry Pi Compute Module 4 (CM4) 
 piCore offers significant advantages with reliability and extending the life of SD card/USB/EMMC lifespan. piCore offers far beeter performance over similiar Linux OS such as Ubuntu core. core22 and raspberrianLite. I've been satisfied piCore to be a key contributor to the success so far. 
