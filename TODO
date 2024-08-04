@@ -1,8 +1,6 @@
-1. Build tcz for dvblast and its dependencies to load at startup.
-2. Transition dvb.sh to dvb.so using GO configure as deamon and restart if crashed.
+1. Build tcz for tsduck and its dependencies to load at startup.
+✔️ 2. Transition dvb.sh to dvb.so using GO configure as deamon and restart if crashed.
 3. Impleament mem_monitor.sh to monitor RAM and reboot at XX:XX once the average RAM is reached X%.  Manage memory leaks over loooonnnngggg operating periods. Months to years.
-4. Add httplightd to host stats overlay to use diirectly with wpe in the core. Overlay receiver stats for each dvb adaptor.
-5. Look at adding lspci to busybox. 
-6. Look at adding lsdvb to busybox  Currently lsdvb is dvbls however easly enough to build from source.
-7. Convert dvblast => go and remove CAM and need to create a stream file for each adaptor.
-8. Add features to improve fe_stats and demux_stats as one would use for a DVB settop box. Make pcr-pid, vpid and apid easily reportable.
+4. Look at adding lspci to piCore busybox. 
+5. Look at adding lsdvb to piCore busybox. TSduck has tslsdvb which lists adpaters.
+6. Move Linux build to PiCore build.
