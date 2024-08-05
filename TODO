@@ -1,6 +1,7 @@
-1. Build tcz for tsduck and its dependencies to load at startup.
-✔️ 2. Transition dvb.sh to dvb.so using GO configure as deamon and restart if crashed.
-3. Impleament mem_monitor.sh to monitor RAM and reboot at XX:XX once the average RAM is reached X%.  Manage memory leaks over loooonnnngggg operating periods. Months to years.
-4. Look at adding lspci to piCore busybox. 
-5. Look at adding lsdvb to piCore busybox. TSduck has tslsdvb which lists adpaters.
-6. Move Linux build to PiCore build.
+1. Look at making Go bindings for TSduck library for use directly without using exec and monitoring cmd line output stdio and stderr.
+2. Build tcz for tsduck and its dependencies to load at startup.
+✔️ 3. Transition dvb.sh to dvb.so using GO configure as deamon and restart if crashed.
+4. Impleament mem_monitor.sh to monitor RAM and reboot at XX:XX once the average RAM is reached X%.  Manage memory leaks over loooonnnngggg operating periods. Months to years.
+5. Look at adding lspci to piCore busybox. 
+6. Look at adding lsdvb to piCore busybox. TSduck has tslsdvb which lists adpaters.
+7. Move Linux build to PiCore build.
