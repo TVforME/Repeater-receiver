@@ -8,7 +8,7 @@ VK3RGL is licenced for 1246MHz and 1255MHz in the 23cm amateur band with 1278MHz
 
 # What does it do?
 Repeater-Receiver is configured to operate in a specific way similar to either a Terrestrial DVB-T and Satellite DVB-S STB without any of the human interfaces such as remote control, front panel display, etc.  
-A typical hardware STB (firmware) are usually closed sourced which doesn't allow for changes or experimentation with changing there operation suitable fo rDATV repeater operation.
+A typical hardware STB (firmware) are usually closed sourced which doesn't allow for changes or experimentation with changing there operation suitable fo DATV repeater operation.
 
 ## Overview
 The receiver is based around the TBS Technologies TBS6522 Quad multi-system DVB PCIe card although any other dvb adapter can be used with their drivers and firmware.
@@ -18,7 +18,7 @@ DVB-S/S2 are received since the 23cm band is conveniently in the same IF range o
 
 Each of the cards PCIe x1 are connected to the Compute Module 4 (CM4) via a daughter board. Unfortunately, the standard Raspberry Pi 4 PCIe lanes are pre-occupied by the on board usb switch and other peripherals which leaves the vanilla Pi4 not suitable for the project however, usable if USB dvb adapters are used.
 
-2x TBS6522H Quad DVB boards allow for 8 individual adapters frontends to connect PCIe (x1) lane via a PCIe 2x (x1) expander board giving  4 x DVB-T/T2/T2-Lite and 4 x DVB-S/S2/S2X frontend receivers.  Effectively 8 STB's.
+2x TBS6522H Quad DVB boards allow for 8 individual adapters frontends to connect PCIe (x1) lane via a PCIe 2x (x1) expander board giving  4 x DVB-T/T2/T2-Lite and 4 x DVB-S/S2/S2X frontend receivers. Effectively 8 STB's.
 
 ## Here's a break down on how the receiver functions.
 
