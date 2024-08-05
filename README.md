@@ -1,22 +1,46 @@
-# Repeater-receiver
-Receiver for the DATV Repeater Project..
+# What is Repeater-receiver?
+Repeater-Receiver belongs to the Repeter project and is one of the key elements to my DATV [Repeater](https://github.com/TVforME/Repeater) Project.
 
-Receiver simlulates a STB (Set Top Box) without the remote control and stuff we don't need.
-Receiver operates independantly and listens for a valid TS on configured frequencies. Once a signal is received, the TS is anaylsed for the first service in the MPTS or SPTS and then reconfigures the demux to pass the first service onto the streamer. The streamer forwards the SPTS via RTP (relatime protocol) via multicast for the repeater core to decode. In effect, Receiver could be used as a simple headend.
+Repeater-Receiver is a software version of a Set Top Box (STB) 
+Most of it time will be listening on each of our repeater inupt frequencies waiting for a DVB-T/T2 and DVB-S/S2 signal.
+
+VK3RGL is licenced for 1246MHz and 1255MHz in the 23cm amateur band with 1278MHz and 1287MHz inputs to be included in future.
+
+# What does it do?
+Repeater-Receiver is configured to operate in a specific way similar to either a DVB-T and DVB-T STB without any of the human interfaces such as remote control, front panel display. A typical hardware STB (firmware) are closed sourced which doesn't allow for changes or experimentation.
 
 ## Overview
-The receiver is based around the TBS Technologies TBS6522 Quad multi-system DVB PCIe card on a Compute Module 4 (CM4) on a AliExpress daughter board effectively exposes the CM4's PCIe channel. Unfortunately, the standard Raspberry Pi 4 has its PCIe lanes occupied for usb switch and other peripherals which leaves the use of USB DVB adapter the only solution. 
-Using USB DVB adapters comes with caveats-
+The receiver is based around the TBS Technologies TBS6522 Quad multi-system DVB PCIe card although any other dvb adapter can be used with their drivers and firmware.
+Both the DVB-T/T2 inputs are downconverted by 600MHz offset to place the 23cm frequencies in the common UHF broadcast band. The offset frequency is configured in the config.yaml file. 
 
-1. Limitited to how many usb ports available on your system. 
-2. Order of usb enumerations can be problematic. /dvb/adapter0 adapter1 aren't always logical 0,1,2 etc
-3. A solution is to bind the adapter 'Name' to usb port.
+DVB-S/S2 are received since the 23cm band is conveniently in the same IF range of the DVB-S/S2 receivers.
 
-The CM4's PCIe support allows for 8 individual adaptors to connect PCIe (x1) lane via a PCIe 2x (x1) expander board.  
+Each of the cards PCIe x1 are connected to the Compute Module 4 (CM4) via a daughter board. Unfortunately, the standard Raspberry Pi 4 PCIe lanes are pre-occupied by the on board usb switch and other peripherals which leaves the vanilla Pi4 not suitable for the project however, usable if USB dvb adapters are used.
 
-The source code is developed in Golang to levergage go routines and go's built in http server to host an OSD display to show each adapter and monitor page for CPU/RAM/Network usage rates.
+2x TBS6522H Quad DVB boards allow for 8 individual adapters frontends to connect PCIe (x1) lane via a PCIe 2x (x1) expander board giving  4 x DVB-T/T2/T2-Lite and 4 x DVB-S/S2/S2X frontend receivers.  Effectively 8 STB's.
 
-<img src="/docs/images/Screenshot_2024-08-05_Stats.png" width="45%">
+## Here's a break down on how the receiver functions.
+
+1. Once a signal is received, the TS is anaylsed for the first service in the MPTS or SPTS.
+2. The frontend then analyses the first service for the signal modulation type.
+   Using AUTO-T and AUTO-S Types in the config allows for both T/T2/T2-Lite and S/S2/S2X to be auto selected.
+3. The TS is again anaylsed to determine the PCR, VIDEO and AUDIO PID's then begins sending the TS via RTP (relatime protocol) multicast out of the network port.
+   I've tested using ffmpeg/ffplay, VLC and GStreamer and are able to receiver the RTP stream.
+4. Each configured adapter has a OSD to show the frontend status and signal, SNR and BER level 0-100% and the service information on a OSD similar to a STB.
+   The purpose is to superimpose the OSD onto any incoming video. The OSD is html based using CSS and Javascript.  My first attempt here too?
+
+The source code is developed in Golang to levergage Go co-routines and inbuilt http server including serval other cool packages the Go community have to offer.
+I'm by no mean a Go programmer or expert and this particualr project is my first attempt at programming in Go.
+After my 3rd interation of programming and testing, I've stuck with using the TSduck tool kit for the underlaying engine over using DVBlast and MuMuDVB to name two.
+
+## Code Quality..
+I'm particular and strive to improve on what is offered. 
+Please support the project. If your a Go Guru and can offer improvements, please reachout. Checkout my TODO list for future work and enhancements.
+
+## Screen shots of receiver running on a Linux i5 Gen 9 Laptop using 2 x USB DVB-T adapters.
+
+<img src="/docs/images/Livescreenshot-adapter-osd-gst.jpg" width="65%">
+
 <img src="/docs/images/Screenshot_2024-08-05_System_Monitor.png" width="45%">
 
 Each adapter's frontend are polled in read only mode using ioctl calls.  Direct ioctl calls greatly speed up the response and has avoided the additional overhead in translating the stats values comming in through stdio.
