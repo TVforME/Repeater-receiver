@@ -7,7 +7,8 @@ Most of it time will be listening on each of our repeater inupt frequencies wait
 VK3RGL is licenced for 1246MHz and 1255MHz in the 23cm amateur band with 1278MHz and 1287MHz inputs to be included in future.
 
 # What does it do?
-Repeater-Receiver is configured to operate in a specific way similar to either a DVB-T and DVB-T STB without any of the human interfaces such as remote control, front panel display. A typical hardware STB (firmware) are closed sourced which doesn't allow for changes or experimentation.
+Repeater-Receiver is configured to operate in a specific way similar to either a Terrestrial DVB-T and Satellite DVB-S STB without any of the human interfaces such as remote control, front panel display, etc.  
+A typical hardware STB (firmware) are usually closed sourced which doesn't allow for changes or experimentation with changing there operation suitable fo rDATV repeater operation.
 
 ## Overview
 The receiver is based around the TBS Technologies TBS6522 Quad multi-system DVB PCIe card although any other dvb adapter can be used with their drivers and firmware.
