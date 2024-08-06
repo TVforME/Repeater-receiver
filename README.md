@@ -40,6 +40,8 @@ Please support the project. If your a Go Guru and can offer improvements, please
 
 ## Screen shots of receiver running on a Linux i5 Gen 9 Laptop using 2 x USB DVB-T adapters.
 
+Take note the inset video is a GStreamer pipeline receiving the RTP TS from the selected adapter and is not part of the code base. VLC can do the same using rtp://239.255.0.1:5004 or what ever your multicast address you assign.
+
 <img src="/docs/images/Livescreenshot-adapter-osd-gst.jpg" width="65%">
 
 <img src="/docs/images/Screenshot_2024-08-05_System_Monitor.png" width="45%">
@@ -62,6 +64,13 @@ All settings are configured in a config.yaml file and read at startup.
 ## Architectures amd64 and amr64.
 Version 1.0.1 is operating on Linux Ubuntu 24.04 and Ubuntu Core 24 on Raspberry Pi.
 Ulimately, Receiver is in development to be ported to PiCore64 for the purpose of running entirely in RAM to aviod SSD corruption from power cycling or inadvertant power removal.
+
+
+## Building Repeater Reciever..
+Please bare with me.. I've developed a script to build TSdack and Reperater-receiver from source..
+I'll add the steps in the next few days..
+
+
 
 # Below this line is proposed for FUTURE and in development
 # =============================================
