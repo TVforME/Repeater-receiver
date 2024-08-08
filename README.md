@@ -71,7 +71,6 @@ Ulimately, Receiver is in development to be ported to PiCore64 for the purpose o
 Below is the dir tree showing the files
 ```bash
 Repeater-receiver/
-
 ├── docs/
 ├── repo/
 ├── src/
@@ -86,7 +85,6 @@ Repeater-receiver/
 ├── go.mod
 ├── go.sum
 └── TODO
- 
 ```
 
 ###  Dependencies and build system:
