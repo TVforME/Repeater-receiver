@@ -61,18 +61,99 @@ The code operates on a simple state machine with 4 states:-
 
 All settings are configured in a config.yaml file and read at startup.
 
-## Architectures amd64 and amr64.
-Version 1.0.1 is operating on Linux Ubuntu 24.04 and Ubuntu Core 24 on Raspberry Pi.
-Ulimately, Receiver is in development to be ported to PiCore64 for the purpose of running entirely in RAM to aviod SSD corruption from power cycling or inadvertant power removal.
+## Architectures AMD64 and ARM64.
+Version 1.0.1 is operating on Linux Ubuntu 24.04 and Ubuntu (headless) on Raspberry Pi.
+Ulimately, Receiver is in development to be ported to PiCore64 for the purpose of running entirely in RAM to avoid SSD corruption from premature power removal.
 
 
-## Building Repeater Reciever..
-Please bare with me.. I've developed a script to build TSdack and Reperater-receiver from source..
-I'll add the steps in the next few days..
+## Building Repeater Reciever for amd64 and arm64 (Raspberry Pi)
+
+Below is the dir tree showing the files
+```bash
+Repeater-receiver/
+
+├── docs/
+├── repo/
+├── src/
+│    ├─────── static/ 
+│    ├── ...     ├── adapter.html 
+│    ├── ...     ├── monitor.html
+│    ├── ...     ├── root.html      
+│    └── ...     └── style.css
+│ 
+├── config.yaml
+├── main.go
+├── go.mod
+├── go.sum
+└── TODO
+ 
+```
+
+###  Dependencies and build system:
+
+Install the TSduck tool kit, your adapter drivers and if not already on your distro, the dvbapi
+
+**** More to be added here  *****
 
 
+To build your Go application for both AMD64 and ARM64 architectures, including ARM64 for Raspberry Pi, follow these detailed steps:
 
-# Below this line is proposed for FUTURE and in development
+### Step 1: Install Go
+First, install the Go programming language on your machine.
+Download and Install Go:
+
+```bash
+wget https://golang.org/dl/go1.20.1.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.20.1.linux-amd64.tar.gz
+```
+Add Go to your PATH:
+
+```bash
+echo "export PATH=$PATH:/usr/local/go/bin" >> ~/.profile
+source ~/.profile
+```
+Verify Installation: 
+
+```bash
+go version
+```
+If all is 
+### Step 2: Clone the Repository:
+
+```bash
+git clone https://github.com/TVforME/Repeater-receiver.git
+cd Repeater-receiver
+```
+```bash
+go mod tidy
+```
+
+### Step 3: Build the Repository:
+
+### Build for AMD64:
+```bash
+GOARCH=amd64 GOOS=linux go build -o repeater-receiver-amd64
+```
+### Build for ARM64:
+```bash
+GOARCH=arm64 GOOS=linux go build -o repeater-receiver-arm64
+```
+Ensure the binaries repeater-receiver-amd64 and repeater-receiver-arm64 are created in your root directory.
+
+### Step 4: Modify the config file.
+Modify the config.yam file to suit your dvb apaters and frequency, bandwitdh and sysmbol-rate values.
+
+### Step 5: Run the application on our platform
+
+AMD64 
+```bash
+./repeater-receiver-amd64
+```
+ ARM64 (for me raspberry Pi CM4)
+```bash
+./repeater-receiver-arm64
+```
+# Below this line is proposed to porting to piCore64
 # =============================================
 
 ## Using piCore64 on a Raspberry Pi Compute Module 4 (CM4) 
