@@ -98,11 +98,12 @@ To build your Go application for both AMD64 and ARM64 architectures, including A
 
 ### Step 1: Install Go
 First, install the Go programming language on your machine.
-Download and Install Go:
+Download and Install Go on your development machine. At the time of writing the latest was version 1.22.6
+Adjust to suit the latest version. Best to check for the latest version offeredhere https://go.dev/dl/ and go with that.
 
 ```bash
-wget https://golang.org/dl/go1.20.1.linux-amd64.tar.gz
-sudo tar -C /usr/local -xzf go1.20.1.linux-amd64.tar.gz
+wget https://golang.org/dl/go1.22.6.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.22.6.linux-amd64.tar.gz
 ```
 Add Go to your PATH:
 
@@ -115,7 +116,9 @@ Verify Installation:
 ```bash
 go version
 ```
-If all is 
+Confirm that the command prints the installed version of Go such as v1.22.6
+Once Go is installed.. We are good to Go!
+
 ### Step 2: Clone the Repository:
 
 ```bash
