@@ -208,7 +208,7 @@ func (sm *StateMachine) AwaitSignal() error {
 /*
 Get First Service and begin finding the PCR,VIDEO, AUDIO and Video Type and Audio Type
 for the service.
-Awaits to for Awaiting for TSP to produce adapter(x).json which is analsyed for the
+Awaits for TSP to produce adapter(x).json which is analsyed for the
 services in the TS. If services > 1 then, selects the first service.
 */
 
