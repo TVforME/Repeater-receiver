@@ -39,8 +39,8 @@ Each of the cards PCIe x1 are connected to the Compute Module 4 (CM4) via a daug
 The source code is developed in Golang to levergage Go co-routines and Go's inbuilt http server including serval other cool packages the Go community have to offer.
 I'm by no means a professional Go programmer and this is my first DVB project. I believe Go has alot to offer over my early attempts using a mix of C, C++ and Python.
 
-The internal DVB supset I've settled with using the [TSduck tool kit](https://tsduck.io/) for the underlaying DVB engine however, there be a change to use GSteamer dvbsrc, TSdemux and RTPsink elements once I master how to listen for the dvb messages from the gstreamer bus.
-One of the GO's GStreamer frameworks [ go-gst/go-gst](https://github.com/go-gst/go-gst) is missing the functions required to handle DVB PSI at the moment therefore hopefully CGO wrappers can be added to help with bus messaging and handling of DVB PSI info properly.
+The internal DVB supset I've settled with using the [TSduck tool kit](https://tsduck.io/) for the underlaying DVB engine however, there be a change to use GSteamer dvbsrc, tsdemux and rtpsink elements once I master how to listen for the dvb messages from the gstreamer bus.
+The GStreamer framework [ go-gst/go-gst](https://github.com/go-gst/go-gst) I'm using unfortunately is missing the DVB CGO wrappers arounf the C calls. Hopefully,these can be added in future. 😉
 
 ## Code Quality..
 I'm particular and strive to improve on what is offered. 
