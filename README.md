@@ -23,16 +23,23 @@ Each of the cards PCIe x1 are connected to the Compute Module 4 (CM4) via a daug
 ## Here's a break down on how the receiver functions.
 
 1. Once a signal is received, the TS is anaylsed for the first service in the MPTS or SPTS.
+    
 2. The frontend then analyses the first service for the signal modulation type.
    Using AUTO-T and AUTO-S Types in the config allows for both T/T2/T2-Lite and S/S2/S2X to be auto selected.
+   
 3. The TS is again anaylsed to determine the PCR, VIDEO and AUDIO PID's then begins sending the TS via RTP (relatime protocol) multicast out of the network port.
    I've tested using ffmpeg/ffplay, VLC and GStreamer and are able to receiver the RTP stream.
-4. Each configured adapter has a OSD to show the frontend status and signal, SNR and BER level 0-100% and the service information on a OSD similar to a STB.
-   The purpose is to superimpose the OSD onto any incoming video. The OSD is html based using CSS and Javascript.  My first attempt here too?
+   
+4. When any of the adaptor frontends are locked* repeater-receiver begins and emit a multicast UDP in json string which is polled in the repeater core.
+   The repeater core acknowledges there is valid lock frontend and switches to the RTP stream. Once the UDP json string signals unlocked the connection assume lost.
+   
+5. Each configured adapter has it own OSD to show the frontend status and signal, SNR and BER level 0-100% and the service information on a OSD similar to a STB.
+   The purpose is to superimpose the OSD onto any incoming video. The OSD is using SSE json events with html5, CSS and some Javascript.  My first attempt here too?
 
-The source code is developed in Golang to levergage Go co-routines and inbuilt http server including serval other cool packages the Go community have to offer.
-I'm by no mean a Go programmer or expert and this particualr project is my first attempt at programming in Go.
-After my 3rd interation of programming and testing, I've stuck with using the TSduck tool kit for the underlaying engine over using DVBlast and MuMuDVB to name two.
+The source code is developed in Golang to levergage Go co-routines and Go's inbuilt http server including serval other cool packages the Go community have to offer.
+I'm by no mean a Go programmer and this is my first DVB project using Go.
+I've settled in using the TSduck tool kit for the underlaying engine at the moment however, there be a change to use GSteamer dvbsrc element once I master how to listen for the dvb messages from the gstreamer bus.
+Go is GStreamer framework [ go-gst/go-gst](https://github.com/go-gst/go-gst) is missing the functions required to handle DVB PSI at the moment.
 
 ## Code Quality..
 I'm particular and strive to improve on what is offered. 
