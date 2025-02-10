@@ -37,9 +37,10 @@ Each of the cards PCIe x1 are connected to the Compute Module 4 (CM4) via a daug
    The purpose is to superimpose the OSD onto any incoming video. The OSD is using SSE json events with html5, CSS and some Javascript.  My first attempt here too?
 
 The source code is developed in Golang to levergage Go co-routines and Go's inbuilt http server including serval other cool packages the Go community have to offer.
-I'm by no mean a Go programmer and this is my first DVB project using Go.
-I've settled in using the TSduck tool kit for the underlaying engine at the moment however, there be a change to use GSteamer dvbsrc element once I master how to listen for the dvb messages from the gstreamer bus.
-Go is GStreamer framework [ go-gst/go-gst](https://github.com/go-gst/go-gst) is missing the functions required to handle DVB PSI at the moment.
+I'm by no means a professional Go programmer and this is my first DVB project. I believe Go has alot to offer over my early attempts using a mix of C, C++ and Python.
+
+The internal DVB supset I've settled with using the [TSduck tool kit](https://tsduck.io/) for the underlaying DVB engine however, there be a change to use GSteamer dvbsrc, TSdemux and RTPsink elements once I master how to listen for the dvb messages from the gstreamer bus.
+One of the GO's GStreamer frameworks [ go-gst/go-gst](https://github.com/go-gst/go-gst) is missing the functions required to handle DVB PSI at the moment therefore hopefully CGO wrappers can be added to help with bus messaging and handling of DVB PSI info properly.
 
 ## Code Quality..
 I'm particular and strive to improve on what is offered. 
