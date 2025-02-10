@@ -2,7 +2,7 @@
 Repeater-Receiver belongs to the Repeter project and is one of the key elements to my DATV [Repeater](https://github.com/TVforME/Repeater) Project.
 
 Repeater-Receiver is a software version of a Set Top Box (STB) 
-Most of it time will be listening on each of our repeater inupt frequencies waiting for a DVB-T/T2 and DVB-S/S2 signal.
+Most of it time will be listening on each of our repeater input frequencies waiting for a DVB-T/T2 and DVB-S/S2 signal.
 
 VK3RGL is licenced for 1246MHz and 1255MHz in the 23cm amateur band with 1278MHz and 1287MHz inputs to be included in future.
 
