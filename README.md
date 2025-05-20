@@ -93,6 +93,7 @@ Repeater-receiver/
 ├── main.go
 ├── go.mod
 ├── go.sum
+├── build.sh
 └── TODO
 ```
 
@@ -100,10 +101,30 @@ Repeater-receiver/
 
 Install the TSduck tool kit, your adapter drivers and if not already on your distro, the dvbapi
 
-**** More to be added here  *****
+### Run build.sh
+First allow execute privillages to build script.
+```
+chmod +x build.sh
+```
+Then execute the build script with parameters which suit your requirementts.
+```
+# Install dependencies
+sudo ./build.sh --install-deps
 
+# Build for AMD64
+./build.sh --amd64
 
-To build your Go application for both AMD64 and ARM64 architectures, including ARM64 for Raspberry Pi, follow these detailed steps:
+# Build for ARM64
+./build.sh --arm64
+
+# Build for both architectures
+./build.sh --all
+
+# Build for current architecture (default)
+./build.sh
+```
+
+To build your Go application MANUALLY for both AMD64 and ARM64 architectures, including ARM64 for Raspberry Pi, follow these detailed steps:
 
 ### Step 1: Install Go
 First, install the Go programming language on your machine.
